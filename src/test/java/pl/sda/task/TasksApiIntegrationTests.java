@@ -1,42 +1,53 @@
 package pl.sda.task;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import pl.sda.task.controller.TasksController;
 import pl.sda.task.model.Task;
 import pl.sda.task.model.User;
+import pl.sda.task.service.TaskService;
 
-import static org.hamcrest.Matchers.*;
+import java.util.Arrays;
+
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.annotation.DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
-@DirtiesContext(classMode = BEFORE_EACH_TEST_METHOD)
+@WebMvcTest(controllers = TasksController.class)
 public class TasksApiIntegrationTests {
 
     @Autowired
     MockMvc mockMvc;
-    @Autowired
-    ObjectMapper objectMapper;
+    @MockBean
+    private TaskService taskService;
 
     @Test
-    @DisplayName("When GET on /api/tasks then status OK")
+    @DisplayName("When GET on /api/tasks then status OK and return all tasks")
     public void test() throws Exception {
+        // given
+        Task anyTask = taskWithTitleAndDescription("task title", "task description");
+        Mockito.when(taskService.findAll()).thenReturn(Arrays.asList(anyTask));
+
         //when
         mockMvc.perform(get("/api/tasks"))
                 //then
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title", is("task title")))
+                .andExpect(jsonPath("$[0].description", is("task description")));
     }
 
     @Test
@@ -44,6 +55,7 @@ public class TasksApiIntegrationTests {
     public void test1() throws Exception {
         //given
         String task = "{\"title\":\"title\",\"description\":\"description\"}";
+
         //when
         mockMvc.perform(
                 post("/api/tasks")
@@ -52,44 +64,29 @@ public class TasksApiIntegrationTests {
                 //then
                 .andExpect(status().isCreated()
                 );
-        mockMvc.perform(get("/api/tasks"))
-                .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title", is("title")))
-                .andExpect(jsonPath("$[0].description", is("description")));
+        Mockito.verify(taskService, Mockito.times(1)).create(ArgumentMatchers.any(Task.class));
     }
 
     @Test
     @DisplayName("When PUT on /api/tasks/{id}/user then task is assigned to user")
     public void test2() throws Exception {
         //given
-        Task task = createTask("{\"title\":\"title\",\"description\":\"description\"}");
-        User user = createUser("{\"name\": \"goobar\"}");
+        long userId = 1;
+        long taskId = 2;
+
         //when
-        mockMvc.perform(put("/api/tasks/{id}/user", task.getId())
-                .contentType(MediaType.TEXT_PLAIN).content(String.valueOf(user.getId())))
+        mockMvc.perform(put("/api/tasks/{id}/user", taskId)
+                .contentType(MediaType.TEXT_PLAIN).content(String.valueOf(userId)))
                 //then
                 .andExpect(status().isOk());
-        mockMvc.perform(get("/api/tasks/{id}", task.getId()))
-                .andExpect(jsonPath("$.user.id", is(Math.toIntExact(user.getId()))));
+        Mockito.verify(taskService, Mockito.times(1)).assignTaskToUser(taskId, userId);
     }
 
-    private Task createTask(String task) throws Exception {
-        return objectMapper.readValue(mockMvc.perform(
-                post("/api/tasks")
-                        .content(task)
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(), Task.class);
+    private Task taskWithTitleAndDescription(String title, String description) {
+        Task task = new Task();
+        task.setTitle(title);
+        task.setDescription(description);
+        return task;
     }
 
-    private User createUser(String user) throws Exception {
-        return objectMapper.readValue(mockMvc.perform(post("/api/users").content(user).contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print())
-                .andExpect(status().isCreated())
-                .andReturn()
-                .getResponse()
-                .getContentAsString(), User.class);
-    }
 }

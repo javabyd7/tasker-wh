@@ -11,7 +11,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/tasks")
 public class TasksController {
-
     private TaskService taskService;
 
     public TasksController(TaskService taskService) {
@@ -26,8 +25,7 @@ public class TasksController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        Task createdTask = taskService.create(task);
-        return createdTask;
+        return taskService.create(task);
     }
 
     @GetMapping("/{id}")

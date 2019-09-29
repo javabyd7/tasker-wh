@@ -1,6 +1,7 @@
 package pl.sda.task.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.OneToOne;
 
 @Data
 @Entity
+@EqualsAndHashCode(of = "id")
 public class Task {
 
     @Id
