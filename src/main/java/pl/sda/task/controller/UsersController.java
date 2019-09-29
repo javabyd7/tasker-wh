@@ -24,8 +24,8 @@ public class UsersController {
     }
 
     @PostMapping
-    public ResponseEntity createUser(@RequestBody User user) throws URISyntaxException {
+    public ResponseEntity<User> createUser(@RequestBody User user) throws URISyntaxException {
         User savedUser = userRepository.save(user);
-        return ResponseEntity.created(new URI("/api/users/" + savedUser.getId())).build();
+        return ResponseEntity.created(new URI("/api/users/" + savedUser.getId())).body(savedUser);
     }
 }
