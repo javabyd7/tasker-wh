@@ -1,12 +1,17 @@
 package pl.sda.task.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.sda.task.TaskAlreadyAssignedException;
+import pl.sda.task.TaskRepository;
+import pl.sda.task.UserBusyException;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import java.util.Optional;
 
 @Data
 @Entity
@@ -23,5 +28,20 @@ public class Task {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void assignTo(User user) {
+        if (user.isBusy()) {
+            throw new UserBusyException();
+        }
+        if (this.user != null) {
+            throw new TaskAlreadyAssignedException();
+        }
+        user.setBusy(true);
+        this.user = user;
+    }
+
+    public Optional<User> assignedUser() {
+        return Optional.ofNullable(user);
     }
 }
