@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -44,6 +46,7 @@ public class UsersApiIntegrationTests {
         //when
         mockMvc.perform(post("/api/users").content(user).contentType(MediaType.APPLICATION_JSON))
                 //then
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isCreated());
         mockMvc.perform(get("/api/users"))
                 .andExpect(jsonPath("$", hasSize(1)))
