@@ -2,10 +2,9 @@ package pl.sda.task.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.sda.task.TaskRepository;
-import pl.sda.task.UserRepository;
 import pl.sda.task.model.Task;
 import pl.sda.task.model.User;
+import pl.sda.task.service.TaskService;
 
 import java.util.Optional;
 
@@ -13,40 +12,31 @@ import java.util.Optional;
 @RequestMapping("/api/tasks")
 public class TasksController {
 
-    private TaskRepository taskRepository;
-    private UserRepository userRepository;
+    private TaskService taskService;
 
-    public TasksController(TaskRepository taskRepository, UserRepository userRepository) {
-        this.taskRepository = taskRepository;
-        this.userRepository = userRepository;
+    public TasksController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
     public Iterable<Task> anything() {
-        return taskRepository.findAll();
+        return taskService.findAll();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Task createTask(@RequestBody Task task) {
-        Task createdTask = taskRepository.save(task);
+        Task createdTask = taskService.create(task);
         return createdTask;
     }
 
     @GetMapping("/{id}")
     public Optional<Task> getTaskById(@PathVariable("id") String taskId) {
-        return taskRepository.findById(Long.valueOf(taskId));
+        return taskService.findById(Long.valueOf(taskId));
     }
 
     @PutMapping("/{id}/user")
-    public void assignUser(@RequestBody String userId, @PathVariable("id") String taskId) {
-        Optional<User> optionalUser = userRepository.findById(Long.valueOf(userId));
-        Optional<Task> optionalTask = taskRepository.findById(Long.valueOf(taskId));
-        optionalTask.ifPresent(t -> {
-            optionalUser.ifPresent(u -> {
-                t.setUser(u);
-                taskRepository.save(t);
-            });
-        });
+    public void assignUser(@PathVariable("id") String taskId, @RequestBody String userId) {
+        taskService.assignTaskToUser(Long.valueOf(taskId), Long.valueOf(userId));
     }
 }

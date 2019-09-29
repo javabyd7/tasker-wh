@@ -70,7 +70,7 @@ public class TasksApiIntegrationTests {
                 //then
                 .andExpect(status().isOk());
         mockMvc.perform(get("/api/tasks/{id}", task.getId()))
-                .andExpect(jsonPath("$.user.id", is(Integer.valueOf(String.valueOf(user.getId())))));
+                .andExpect(jsonPath("$.user.id", is(Math.toIntExact(user.getId()))));
     }
 
     private Task createTask(String task) throws Exception {
