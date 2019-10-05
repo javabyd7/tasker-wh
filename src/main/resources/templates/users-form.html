@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<form method="post" action="/mvc/users">
+    <label>Name:</label> <input type="text" required name="name"><br>
+    <input type="submit" value="Add User">
+</form>
+<table>
+    <thead>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Busy</th>
+    </thead>
+    <tbody>
+    <tr th:each="user: ${users}">
+        <td th:text="${user.getId()}">sample id</td>
+        <td th:text="${user.getName()}">sample name</td>
+        <td th:text="${user.isBusy()}">true/false</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
