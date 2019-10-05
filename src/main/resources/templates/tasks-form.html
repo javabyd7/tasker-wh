@@ -20,7 +20,7 @@
         </span>
         <span th:if="${task.user == null}">
             <td>
-                <form action="/tasks/showTasks" method="post">
+                <form action="/mvc/assignTask" method="post">
                     <input type="text" name="taskId" th:value="${task.id}" hidden>
                     <input type="text" name="userId" required>
                     <input type="submit" value="Assign Task">

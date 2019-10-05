@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.sda.task.model.CannotAssignTaskException;
 import pl.sda.task.model.Task;
 import pl.sda.task.service.TaskService;
 
@@ -38,7 +39,11 @@ public class MvcTasksController {
 
     @PostMapping("/assignTask")
     public String assignTaskToUser(@RequestParam("userId") Long userId, @RequestParam("taskId") Long taskId) {
-        taskService.assignTaskToUser(taskId, userId);
+        try {
+            taskService.assignTaskToUser(taskId, userId);
+        } catch (CannotAssignTaskException e) {
+            return "redirect:/mvc/tasks?errors=" + e.getMessage();
+        }
         return "redirect:/mvc/tasks";
     }
 }

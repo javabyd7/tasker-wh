@@ -26,7 +26,7 @@ public class Task {
         this.user = user;
     }
 
-    public void assignTo(User user) {
+    public void assignTo(User user) throws CannotAssignTaskException {
         if (user.isBusy()) {
             throw new UserBusyException();
         }

@@ -1,6 +1,7 @@
 package pl.sda.task.service;
 
 import org.springframework.stereotype.Service;
+import pl.sda.task.model.CannotAssignTaskException;
 import pl.sda.task.repository.TaskRepository;
 import pl.sda.task.repository.UserRepository;
 import pl.sda.task.model.Task;
@@ -21,7 +22,7 @@ public class TaskService {
         this.userRepository = userRepository;
     }
 
-    public void assignTaskToUser(Long taskId, Long userId) {
+    public void assignTaskToUser(Long taskId, Long userId) throws CannotAssignTaskException {
         Optional<User> optionalUser = userRepository.findById(userId);
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         optionalTask.ifPresent(t -> {

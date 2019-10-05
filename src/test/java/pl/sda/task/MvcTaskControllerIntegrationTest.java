@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import pl.sda.task.model.CannotAssignTaskException;
 import pl.sda.task.model.Task;
 import pl.sda.task.web.mvc.MvcTasksController;
 import pl.sda.task.service.TaskService;
@@ -70,5 +71,20 @@ public class MvcTaskControllerIntegrationTest {
                 .andExpect(redirectedUrl("/mvc/tasks"));
 
         verify(taskService).assignTaskToUser(2L, 1L);
+    }
+
+    @DisplayName("When POST on /mvc/assignTask fails then error should be show")
+    @Test
+    void test3() throws Exception {
+        //given
+        CannotAssignTaskException exception = new CannotAssignTaskException("Cannot assign task because");
+        doThrow(exception).when(taskService).assignTaskToUser(2L, 1L);
+        //when
+        mockMvc.perform(post("/mvc/assignTask")
+                .param("userId", String.valueOf(1))
+                .param("taskId", String.valueOf(2)))
+                //then
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/mvc/tasks?errors=" + exception.getMessage()));
     }
 }
