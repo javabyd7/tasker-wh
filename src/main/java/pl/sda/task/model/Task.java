@@ -1,11 +1,7 @@
 package pl.sda.task.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import pl.sda.task.TaskAlreadyAssignedException;
-import pl.sda.task.TaskRepository;
-import pl.sda.task.UserBusyException;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

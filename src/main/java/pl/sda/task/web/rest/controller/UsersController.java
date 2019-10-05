@@ -1,8 +1,8 @@
-package pl.sda.task.controller;
+package pl.sda.task.web.rest.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.sda.task.UserRepository;
+import pl.sda.task.repository.UserRepository;
 import pl.sda.task.model.User;
 
 import java.net.URI;

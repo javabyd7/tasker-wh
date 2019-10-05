@@ -1,9 +1,8 @@
 package pl.sda.task.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.sda.task.TaskRepository;
-import pl.sda.task.UserRepository;
+import pl.sda.task.repository.TaskRepository;
+import pl.sda.task.repository.UserRepository;
 import pl.sda.task.model.Task;
 import pl.sda.task.model.User;
 

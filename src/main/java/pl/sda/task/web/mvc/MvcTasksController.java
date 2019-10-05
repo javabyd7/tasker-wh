@@ -1,4 +1,4 @@
-package pl.sda.task.mvc;
+package pl.sda.task.web.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

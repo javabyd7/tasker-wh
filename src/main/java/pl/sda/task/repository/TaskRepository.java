@@ -1,4 +1,4 @@
-package pl.sda.task;
+package pl.sda.task.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import pl.sda.task.model.Task;

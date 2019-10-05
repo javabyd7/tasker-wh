@@ -1,18 +1,15 @@
 package pl.sda.task;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import pl.sda.task.model.Task;
-import pl.sda.task.mvc.MvcTasksController;
+import pl.sda.task.web.mvc.MvcTasksController;
 import pl.sda.task.service.TaskService;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 

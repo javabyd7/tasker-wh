@@ -1,9 +1,8 @@
-package pl.sda.task.controller;
+package pl.sda.task.web.rest.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.task.model.Task;
-import pl.sda.task.model.User;
 import pl.sda.task.service.TaskService;
 
 import java.util.Optional;
