@@ -27,7 +27,7 @@ public class TaskService {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         optionalTask.ifPresent(t -> {
             optionalUser.ifPresent(u -> {
-                t.setUser(u);
+                t.assignTo(u);
                 taskRepository.save(t);
             });
         });
