@@ -57,4 +57,18 @@ public class MvcTaskControllerIntegrationTest {
                 .andExpect(model().attribute("tasks", tasks))
                 .andExpect(content().string(containsString("<title>Tasks</title>")));
     }
+
+    @DisplayName("When POST on /mvc/assignTask with taks id and user id then task is assigned and status is ok")
+    @Test
+    void test2() throws Exception {
+        //when
+        mockMvc.perform(post("/mvc/assignTask")
+                .param("userId", String.valueOf(1))
+                .param("taskId", String.valueOf(2)))
+                //then
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/mvc/tasks"));
+
+        verify(taskService).assignTaskToUser(2L, 1L);
+    }
 }

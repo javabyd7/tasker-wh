@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.sda.task.model.Task;
 import pl.sda.task.service.TaskService;
 
@@ -33,5 +34,11 @@ public class MvcTasksController {
     public String getTasks(Model model) {
         model.addAttribute("tasks", taskService.findAll());
         return "tasks-form";
+    }
+
+    @PostMapping("/assignTask")
+    public String assignTaskToUser(@RequestParam("userId") Long userId, @RequestParam("taskId") Long taskId) {
+        taskService.assignTaskToUser(taskId, userId);
+        return "redirect:/mvc/tasks";
     }
 }
