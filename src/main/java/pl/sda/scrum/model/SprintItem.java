@@ -1,19 +1,30 @@
-package pl.sda.scrum;
+package pl.sda.scrum.model;
 
+import lombok.NoArgsConstructor;
 import pl.sda.task.model.TaskAlreadyAssignedException;
 import pl.sda.common.user.User;
 import pl.sda.common.user.UserBusyException;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.Optional;
 
+@Entity
+@NoArgsConstructor
 public class SprintItem {
-    private final Long id;
+
+    @Id
+    @GeneratedValue
+    private Long id;
     private String title;
     private String description;
+    @OneToOne
     private User user;
     private boolean finished;
 
-    public SprintItem(Long id,String title, String description) {
+    public SprintItem(Long id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;

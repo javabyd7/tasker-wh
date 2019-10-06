@@ -1,4 +1,4 @@
-package pl.sda.scrum;
+package pl.sda.scrum.model;
 
 public class CannotConfirmSprintException extends RuntimeException {
 }

@@ -1,15 +1,23 @@
-package pl.sda.scrum;
+package pl.sda.scrum.model;
 
 import com.google.common.collect.ImmutableList;
+import lombok.Data;
 import pl.sda.common.user.User;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
+@Data
 public class Sprint {
-    private List<SprintItem> sprintItems;
 
+    @Id
+    @GeneratedValue
+    private Long id;
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private List<SprintItem> sprintItems;
     private boolean confirmed;
 
     public Sprint() {
@@ -26,14 +34,13 @@ public class Sprint {
     }
 
     public void confirm() throws CannotConfirmSprintException {
-        for (SprintItem sprintItem: sprintItems
-             ) {
-            if (!sprintItem.assignedUser().isPresent()){
+        for (SprintItem sprintItem : sprintItems
+        ) {
+            if (!sprintItem.assignedUser().isPresent()) {
                 throw new CannotConfirmSprintException();
             }
             confirmed = true;
         }
-
 
 
     }

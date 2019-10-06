@@ -1,8 +1,12 @@
-package pl.sda.scrum;
+package pl.sda.scrum.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pl.sda.common.user.User;
+import pl.sda.scrum.model.Backlog;
+import pl.sda.scrum.model.BacklogItem;
+import pl.sda.scrum.model.CannotConfirmSprintException;
+import pl.sda.scrum.model.Sprint;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
