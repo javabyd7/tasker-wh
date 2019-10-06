@@ -24,4 +24,8 @@ public class BacklogItem {
     public String getDescription() {
         return description;
     }
+
+    public Long getId() {
+        return itemId;
+    }
 }
