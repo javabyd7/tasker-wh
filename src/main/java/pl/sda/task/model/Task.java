@@ -2,6 +2,8 @@ package pl.sda.task.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.sda.common.user.User;
+import pl.sda.common.user.UserBusyException;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

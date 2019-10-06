@@ -1,9 +1,7 @@
-package pl.sda.task.web.rest.controller;
+package pl.sda.common.user;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.sda.task.repository.UserRepository;
-import pl.sda.task.model.User;
 
 import java.net.URI;
 import java.net.URISyntaxException;

@@ -1,14 +1,10 @@
-package pl.sda.task.web.mvc;
+package pl.sda.common.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import pl.sda.task.model.User;
-import pl.sda.task.repository.UserRepository;
-
-import java.util.Arrays;
 
 @Controller
 @RequestMapping("/mvc/users")

@@ -1,7 +1,7 @@
 package pl.sda.scrum;
 
 import com.google.common.collect.ImmutableList;
-import pl.sda.task.model.User;
+import pl.sda.common.user.User;
 
 import java.util.ArrayList;
 import java.util.List;

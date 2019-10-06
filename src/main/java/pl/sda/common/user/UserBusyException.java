@@ -1,4 +1,6 @@
-package pl.sda.task.model;
+package pl.sda.common.user;
+
+import pl.sda.task.model.CannotAssignTaskException;
 
 public class UserBusyException extends CannotAssignTaskException {
 

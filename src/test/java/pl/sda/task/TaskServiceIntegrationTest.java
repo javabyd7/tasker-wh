@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import pl.sda.task.model.Task;
-import pl.sda.task.model.User;
+import pl.sda.common.user.User;
 import pl.sda.task.repository.TaskRepository;
-import pl.sda.task.repository.UserRepository;
+import pl.sda.common.user.UserRepository;
 import pl.sda.task.service.TaskService;
 
 import static org.assertj.core.api.Assertions.assertThat;

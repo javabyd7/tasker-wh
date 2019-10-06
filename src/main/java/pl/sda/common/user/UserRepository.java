@@ -1,7 +1,6 @@
-package pl.sda.task.repository;
+package pl.sda.common.user;
 
 import org.springframework.data.repository.CrudRepository;
-import pl.sda.task.model.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 }

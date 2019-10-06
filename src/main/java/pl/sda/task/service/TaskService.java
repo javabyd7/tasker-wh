@@ -3,9 +3,9 @@ package pl.sda.task.service;
 import org.springframework.stereotype.Service;
 import pl.sda.task.model.CannotAssignTaskException;
 import pl.sda.task.repository.TaskRepository;
-import pl.sda.task.repository.UserRepository;
+import pl.sda.common.user.UserRepository;
 import pl.sda.task.model.Task;
-import pl.sda.task.model.User;
+import pl.sda.common.user.User;
 
 import java.util.Optional;
 

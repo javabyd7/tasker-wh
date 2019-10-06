@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import pl.sda.task.model.User;
-import pl.sda.task.repository.UserRepository;
-import pl.sda.task.web.mvc.MvcUserController;
+import pl.sda.common.user.User;
+import pl.sda.common.user.UserRepository;
+import pl.sda.common.user.MvcUserController;
 
 import java.util.ArrayList;
 import java.util.Collection;

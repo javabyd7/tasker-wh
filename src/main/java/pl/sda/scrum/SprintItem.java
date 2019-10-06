@@ -1,8 +1,8 @@
 package pl.sda.scrum;
 
 import pl.sda.task.model.TaskAlreadyAssignedException;
-import pl.sda.task.model.User;
-import pl.sda.task.model.UserBusyException;
+import pl.sda.common.user.User;
+import pl.sda.common.user.UserBusyException;
 
 import java.util.Optional;
 

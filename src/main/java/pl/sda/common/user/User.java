@@ -1,4 +1,4 @@
-package pl.sda.task.model;
+package pl.sda.common.user;
 
 
 import lombok.AllArgsConstructor;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import java.util.Optional;
 
 @Data
 @Entity
