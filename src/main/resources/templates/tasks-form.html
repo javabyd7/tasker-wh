@@ -12,6 +12,7 @@
     <th>User</th>
     </thead>
     <tbody>
+    <span th:text="${param.errors}">OK</span>
     <tr th:each="task: ${tasks}">
         <td th:text="${task.title}">sample task</td>
         <td th:text="${task.description}">fixme</td>

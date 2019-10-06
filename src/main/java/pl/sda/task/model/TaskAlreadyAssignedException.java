@@ -3,6 +3,7 @@ package pl.sda.task.model;
 public class TaskAlreadyAssignedException extends CannotAssignTaskException {
 
     public TaskAlreadyAssignedException() {
+        super("Task is already assigned");
     }
 
     public TaskAlreadyAssignedException(String message) {
