@@ -11,11 +11,16 @@ public class SprintItem {
     private String title;
     private String description;
     private User user;
+    private boolean finished;
 
     public SprintItem(Long id,String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public void finish() {
+        this.finished = true;
     }
 
     public String getTitle() {
@@ -43,5 +48,9 @@ public class SprintItem {
         }
         user.setBusy(true);
         this.user = user;
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

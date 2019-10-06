@@ -5,6 +5,7 @@ import pl.sda.task.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Sprint {
     private List<SprintItem> sprintItems;
@@ -46,5 +47,18 @@ public class Sprint {
 
     public boolean isConfirmed() {
         return confirmed;
+    }
+
+    public void markItemAsFinished(Long itemId, User owner) {
+        sprintItems.stream().filter(sprintItem -> sprintItem.getId().equals(itemId))
+                .findAny().ifPresent(SprintItem::finish);
+    }
+
+    public boolean isDone() {
+        return sprintItems.stream().allMatch(SprintItem::isFinished);
+    }
+
+    public List<SprintItem> finishedItems() {
+        return sprintItems.stream().filter(SprintItem::isFinished).collect(Collectors.toList());
     }
 }

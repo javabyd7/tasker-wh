@@ -81,6 +81,65 @@ class CommitSprintTest {
         assertThat(sprint.isConfirmed()).isTrue();
 
     }
+    @DisplayName("Given sprint with one unfinished item " +
+            "When finish this item by owner " +
+            "Then sprint is finished/closed/done/whatever")
+    @Test
+    void markItemAsDone() {
+        //given
+        BacklogItem item = anyBacklogItem();
+        User owner = ownerWithNameAndId("Andrew", 1L);
+        Sprint sprint = sprintWithSingleAssignedItem(item, owner);
+        //when
+        sprint.markItemAsFinished(item.getId(),owner);
+        //then
+        assertThat(sprint.isDone()).isTrue();
+        assertThat(sprint.finishedItems()).hasSize(1);
+        assertThat(sprint.finishedItems().get(0).getId()).isEqualTo(item.getId());
+    }
+    @DisplayName("Given sprint with 2 unfinished items " +
+            "When finish just one of them " +
+            "Then sprint is not finished yet")
+    @Test
+    void markItemAsDone2() {
+        //given
+        BacklogItem firstItem = backlogItemWithId(1L);
+        BacklogItem secondItem = backlogItemWithId(2L);
+        User owner = ownerWithNameAndId("Andrew", 3L);
+        Sprint sprint = sprintWithUnassignedItems(firstItem, secondItem);
+        sprint.assignItemToUser(firstItem.getId(),owner);
+
+        //when
+        sprint.markItemAsFinished(firstItem.getId(),owner);
+        //then
+        assertThat(sprint.isDone()).isFalse();
+        assertThat(sprint.finishedItems()).hasSize(1);
+        assertThat(sprint.finishedItems().get(0).getId()).isEqualTo(firstItem.getId());
+    }
+
+    private Sprint sprintWithUnassignedItems(BacklogItem... items) {
+        Backlog backlog = emptyBacklog();
+        Sprint sprint = backlog.scheduleSprint();
+        for (BacklogItem item: items
+             ) {
+            sprint.commitBacklogItem(item);
+        }
+        return sprint;
+    }
+
+    private BacklogItem backlogItemWithId(Long id) {
+        return new BacklogItem(id);
+    }
+
+    private Sprint sprintWithSingleAssignedItem(BacklogItem item, User owner) {
+        Sprint sprint = sprintWithSingleUnasigneItem(item);
+        sprint.assignItemToUser(item.getId(),owner);
+        return sprint;
+    }
+
+    private User ownerWithNameAndId(String name, Long id) {
+        return new User(id,name,false);
+    }
 
     private Sprint sprintWithSingleUnasigneItem(BacklogItem item) {
         Backlog backlog = backlogWithItem(item);
