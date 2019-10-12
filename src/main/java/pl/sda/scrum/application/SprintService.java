@@ -5,6 +5,7 @@ import pl.sda.common.user.UserRepository;
 import pl.sda.scrum.model.Sprint;
 import pl.sda.scrum.model.SprintItem;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,14 @@ public class SprintService {
     public void confirmSprint(long sprintId) {
         sprintRepository.findById(sprintId).ifPresent(sprint -> {
             sprint.confirm();
+            sprintRepository.save(sprint);
+        });
+    }
+
+    public void markItemAsFinished(Long itemId, Long sprintId) {
+        sprintRepository.findById(sprintId).ifPresent(sprint -> {
+            // we pass null as owner, because markItemAsFinished doesn't use owner argument yet (however, it should change in the nearest future)
+            sprint.markItemAsFinished(itemId, null);
             sprintRepository.save(sprint);
         });
     }

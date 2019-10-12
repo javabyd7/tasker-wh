@@ -92,6 +92,29 @@ class SprintServiceIntegrationTest {
         assertThat(sprintRepository.findById(sprint.getId()).get().isConfirmed()).isTrue();
     }
 
+    @DisplayName("mark sprint item as finished")
+    @Test
+    void test4() {
+        //given
+        Backlog backlog = createBacklog();
+        BacklogItem backlogItem = addAnyItemToBacklog(backlog);
+        Sprint sprint = sprintWithAssignedItem(backlog, backlogItem);
+
+        // when
+        sprintService.markItemAsFinished(backlogItem.getId(), sprint.getId());
+
+        //then
+        assertThat(sprintService.allSprintItems(sprint.getId()).get(0).isFinished()).isTrue();
+    }
+
+    private Sprint sprintWithAssignedItem(Backlog backlog, BacklogItem backlogItem) {
+        Sprint sprint = sprintService.scheduleNewSprint(backlog.getId()).get();
+        sprintService.commitBacklogItemToSprint(backlog.getId(), backlogItem.getId(), sprint.getId());
+        Long userId = addAnyUser();
+        sprintService.assignItemToUser(backlogItem.getId(), sprint.getId(), userId);
+        return sprint;
+    }
+
     private Sprint sprintWithAssignedItem() {
         Backlog backlog = createBacklog();
         BacklogItem backlogItem = addAnyItemToBacklog(backlog);

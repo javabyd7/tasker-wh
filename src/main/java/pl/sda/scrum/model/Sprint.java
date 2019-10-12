@@ -57,6 +57,7 @@ public class Sprint {
     }
 
     public void markItemAsFinished(Long itemId, User owner) {
+        // TODO: use owner to check rules (only owner should be able to finish item)
         sprintItems.stream().filter(sprintItem -> sprintItem.getId().equals(itemId))
                 .findAny().ifPresent(SprintItem::finish);
     }
