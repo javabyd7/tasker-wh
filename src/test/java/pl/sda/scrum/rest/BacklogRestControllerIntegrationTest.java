@@ -10,6 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import pl.sda.scrum.application.BacklogService;
 
@@ -49,6 +50,4 @@ public class BacklogRestControllerIntegrationTest {
                     .andExpect(MockMvcResultMatchers.status().isCreated());
             Mockito.verify(backlogService).addItem("bug","fixme",1L);
     }
-
-
 }
