@@ -27,6 +27,8 @@ class SprintServiceIntegrationTest {
     BacklogService backlogService;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SprintRepository sprintRepository;
 
     @DisplayName("schedule new sprint")
     @Test
@@ -75,6 +77,29 @@ class SprintServiceIntegrationTest {
 
         //then
         assertThat(sprintService.allSprintItems(sprintId).get(0).assignedUser().get().getId()).isEqualTo(userId);
+    }
+
+    @DisplayName("confirm sprint")
+    @Test
+    void test3() {
+        //given
+        Sprint sprint = sprintWithAssignedItem();
+
+        //when
+        sprintService.confirmSprint(sprint.getId());
+
+        //then
+        assertThat(sprintRepository.findById(sprint.getId()).get().isConfirmed()).isTrue();
+    }
+
+    private Sprint sprintWithAssignedItem() {
+        Backlog backlog = createBacklog();
+        BacklogItem backlogItem = addAnyItemToBacklog(backlog);
+        Sprint sprint = scheduleNewSprint(backlog);
+        sprintService.commitBacklogItemToSprint(backlog.getId(), backlogItem.getId(), sprint.getId());
+        Long userId = addAnyUser();
+        sprintService.assignItemToUser(backlogItem.getId(), sprint.getId(), userId);
+        return sprint;
     }
 
     private Long addAnyUser() {

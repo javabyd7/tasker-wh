@@ -12,9 +12,9 @@ import java.util.Optional;
 @Service
 public class SprintService {
 
-    SprintRepository sprintRepository;
-    BacklogRepository backlogRepository;
-    UserRepository userRepository;
+    private SprintRepository sprintRepository;
+    private BacklogRepository backlogRepository;
+    private UserRepository userRepository;
 
     public SprintService(SprintRepository sprintRepository, BacklogRepository backlogRepository, UserRepository userRepository) {
         this.sprintRepository = sprintRepository;
@@ -53,6 +53,13 @@ public class SprintService {
                 sprint.assignItemToUser(itemId, user);
                 sprintRepository.save(sprint);
             });
+        });
+    }
+
+    public void confirmSprint(long sprintId) {
+        sprintRepository.findById(sprintId).ifPresent(sprint -> {
+            sprint.confirm();
+            sprintRepository.save(sprint);
         });
     }
 }
