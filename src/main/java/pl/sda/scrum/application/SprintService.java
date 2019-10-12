@@ -32,11 +32,13 @@ public class SprintService {
     }
 
     public void commitBacklogItemToSprint(Long backlogId, Long itemId, Long sprintId) {
-        backlogRepository.findById(backlogId).ifPresent(backlog -> {
-            backlog.findItemById(itemId).ifPresent(backlogItem -> {
-                sprintRepository.findById(sprintId).ifPresent(sprint -> {
-                    sprint.commitBacklogItem(backlogItem);
-                    sprintRepository.save(sprint);
+        backlogRepository.findById(backlogId)
+                .ifPresent(backlog -> {
+                    backlog.findItemById(itemId)
+                            .ifPresent(backlogItem -> {
+                                sprintRepository.findById(sprintId).ifPresent(sprint -> {
+                                    sprint.commitBacklogItem(backlogItem);
+                                    sprintRepository.save(sprint);
                 });
             });
         });
