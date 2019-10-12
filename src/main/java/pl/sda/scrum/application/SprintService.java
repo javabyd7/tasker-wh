@@ -1,8 +1,7 @@
 package pl.sda.scrum.application;
 
 import org.springframework.stereotype.Service;
-import pl.sda.scrum.model.Backlog;
-import pl.sda.scrum.model.BacklogItem;
+import pl.sda.common.user.UserRepository;
 import pl.sda.scrum.model.Sprint;
 import pl.sda.scrum.model.SprintItem;
 
@@ -15,10 +14,12 @@ public class SprintService {
 
     SprintRepository sprintRepository;
     BacklogRepository backlogRepository;
+    UserRepository userRepository;
 
-    public SprintService(SprintRepository sprintRepository, BacklogRepository backlogRepository) {
+    public SprintService(SprintRepository sprintRepository, BacklogRepository backlogRepository, UserRepository userRepository) {
         this.sprintRepository = sprintRepository;
         this.backlogRepository = backlogRepository;
+        this.userRepository = userRepository;
     }
 
     public Optional<Sprint> scheduleNewSprint(Long backlogId) {
@@ -44,5 +45,14 @@ public class SprintService {
         return sprintRepository.findById(sprintId)
                 .map(Sprint::getSprintItems)
                 .orElse(Collections.emptyList());
+    }
+
+    public void assignItemToUser(long itemId, long sprintId, long userId) {
+        sprintRepository.findById(sprintId).ifPresent(sprint -> {
+            userRepository.findById(userId).ifPresent(user -> {
+                sprint.assignItemToUser(itemId, user);
+                sprintRepository.save(sprint);
+            });
+        });
     }
 }

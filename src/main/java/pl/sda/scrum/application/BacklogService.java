@@ -25,7 +25,8 @@ public class BacklogService {
 
     public void addItem(String title, String description, Long backlogId) {
         backlogRepository.findById(backlogId).ifPresent(backlog -> {
-            backlog.add(new BacklogItem(title, description));
+            BacklogItem backlogItem = new BacklogItem(title, description);
+            backlog.add(backlogItem);
             backlogRepository.save(backlog);
         });
     }

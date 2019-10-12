@@ -16,7 +16,7 @@ import java.util.Optional;
 public class SprintItem {
 
     @Id
-    @GeneratedValue
+    // no need to generate value, because sprint item is always based on backlog item
     private Long id;
     private String title;
     private String description;
@@ -42,8 +42,8 @@ public class SprintItem {
         return description;
     }
 
-    public Optional<String> assignedUser() {
-        return Optional.ofNullable(user).map(User::getName);
+    public Optional<User> assignedUser() {
+        return Optional.ofNullable(user);
     }
 
     public Long getId() {
@@ -64,4 +64,5 @@ public class SprintItem {
     public boolean isFinished() {
         return finished;
     }
+
 }
