@@ -11,9 +11,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests().anyRequest().authenticated();
-        http.csrf().disable();
-        http.httpBasic();
+        http.antMatcher("/api/scrum/backlogs").authorizeRequests().anyRequest().hasRole("USER")
+                .and().httpBasic()
+                .and().csrf().disable();
     }
 
     @Override
