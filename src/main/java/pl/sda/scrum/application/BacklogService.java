@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BacklogService {
@@ -33,5 +34,12 @@ public class BacklogService {
 
     public List<BacklogItem> allItems(Long id) {
         return backlogRepository.findById(id).map(Backlog::getBacklogItems).orElse(Collections.emptyList());
+    }
+
+    public List<BacklogReadItem> allReadItems(Long backlogId) {
+        return allItems(backlogId).stream().map(backlogItem ->
+                new BacklogReadItem(backlogItem.getId(),
+                        backlogItem.getTitle() + " " + backlogItem.getDescription())
+        ).collect(Collectors.toList());
     }
 }

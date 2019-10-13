@@ -1,5 +1,6 @@
 package pl.sda.scrum.application;
 
+import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,6 +107,7 @@ class SprintServiceIntegrationTest {
         //then
         assertThat(sprintService.allSprintItems(sprint.getId()).get(0).isFinished()).isTrue();
     }
+
 
     private Sprint sprintWithAssignedItem(Backlog backlog, BacklogItem backlogItem) {
         Sprint sprint = sprintService.scheduleNewSprint(backlog.getId()).get();

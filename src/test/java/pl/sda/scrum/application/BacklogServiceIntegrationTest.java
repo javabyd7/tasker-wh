@@ -1,5 +1,6 @@
 package pl.sda.scrum.application;
 
+import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,22 @@ class BacklogServiceIntegrationTest {
         assertThat(backlogItems.get(0))
                 .hasFieldOrPropertyWithValue("title", "bug")
                 .hasFieldOrPropertyWithValue("description", "fix me");
+    }
+    @DisplayName("Get read model")
+    @Test
+    void test5() throws Exception
+    {
+        //given
+        Backlog backlog = backlogService.createBacklog();
+        Long backlogId = backlog.getId();
+        //when
+        backlogService.addItem("bug", "fix me", backlogId);
+        //then
+        List<BacklogReadItem> backlogItems = backlogService.allReadItems(backlogId);
+        assertThat(backlogItems).hasSize(1);
+        assertThat(backlogItems.get(0))
+                .hasFieldOrPropertyWithValue("titleAndDescription", "bug fix me")
+                .hasFieldOrProperty("id");
+
     }
 }
