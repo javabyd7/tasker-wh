@@ -1,14 +1,18 @@
 package pl.sda.scrum.application;
 
 import org.springframework.stereotype.Service;
+import pl.sda.common.user.User;
 import pl.sda.common.user.UserRepository;
 import pl.sda.scrum.model.Sprint;
 import pl.sda.scrum.model.SprintItem;
+import pl.sda.scrum.rest.SprintReadItem;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SprintService {
@@ -72,5 +76,16 @@ public class SprintService {
             sprint.markItemAsFinished(itemId, null);
             sprintRepository.save(sprint);
         });
+    }
+
+    public Collection<SprintReadItem> allReadSprintItems(Long sprintId) {
+        return allSprintItems(sprintId).stream()
+                .map(sprintItem ->
+                        new SprintReadItem(
+                        sprintId,
+                        sprintItem.getTitle(),
+                        sprintItem.getDescription(),
+                        sprintItem.assignedUser().map(User::getId).orElse(null)))
+                .collect(Collectors.toList());
     }
 }

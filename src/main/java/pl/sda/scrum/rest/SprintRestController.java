@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.sda.scrum.application.SprintService;
 
+import java.util.Collection;
+
 @RestController
 @RequestMapping("/api/scrum/sprints")
 public class SprintRestController {
@@ -45,5 +47,10 @@ public class SprintRestController {
     public void markItemAsFinished(@PathVariable("sprintId") Long sprintId,
                                    @PathVariable("itemId") Long itemId){
         sprintService.markItemAsFinished(itemId,sprintId);
+    }
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<SprintReadItem> getAllSprintReadItems(@PathVariable("id") Long sprintId){
+        return sprintService.allReadSprintItems(sprintId);
     }
 }
